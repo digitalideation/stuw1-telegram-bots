@@ -107,10 +107,10 @@ Here are the key files involved in this implementation:
   });
   ```
 
-- **`server/api/sendMessage.post.ts`**:
+- **`server/api/sendMessage.post.js`**:
   This is the server-side endpoint. It's a POST route that reads the message from the request body. It then uses the `useRuntimeConfig()` composable to access the bot token and chat ID. Finally, it constructs the URL and uses `$fetch` to send the request to the Telegram API.
 
-  ```typescript
+  ```javascript
   export default defineEventHandler(async (event) => {
     const { telegramBotToken, telegramChatId } = useRuntimeConfig();
     const body = await readBody(event);
@@ -144,12 +144,3 @@ Here are the key files involved in this implementation:
   };
   </script>
   ```
-
-### 2.3 Next Steps
-
-Now you have all the necessary components:
-
-- Your Bot Token
-- Your Chat ID
-
-Add these values to your `.env` file, run `npm install` and then `npm run dev` to start the application and test the notification functionality.
