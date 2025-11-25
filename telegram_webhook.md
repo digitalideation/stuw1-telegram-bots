@@ -149,3 +149,7 @@ async function sendMessage(botToken, chatId, text) {
 4.  **Fetches Weather**: Using the coordinates, it calls the Open-Meteo forecast API to get the current weather data.
 5.  **Sends Reply**: It formats a user-friendly message with the weather information and uses a helper function (`sendMessage`) to send this message back to the user who requested it. The `chat.id` from the incoming message is used to ensure the reply goes to the correct person or group.
 6.  **Responds to Telegram**: It's crucial to always send a `200 OK` response back to Telegram quickly. This acknowledges that you have received the update. If Telegram doesn't get a `200 OK`, it will assume the delivery failed and will try to send the same update again, which can lead to your bot sending duplicate replies.
+
+## 4. Live Webhook URL
+
+The current webhook is set to: `https://unvigorous-christa-epigrammatic.ngrok-free.dev/api/webhook`

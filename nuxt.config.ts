@@ -6,6 +6,19 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["./app/assets/css/main.css"],
   vite: {
+    server: {
+      allowedHosts: ["unvigorous-christa-epigrammatic.ngrok-free.dev"],
+      hmr: {
+        protocol: "wss",
+        host: "localhost",
+      },
+      // HMR in Gitpod
+      // hmr: {
+      //   protocol: "wss",
+      //   clientPort: 443,
+      //   host: `4000-${process.env.GITPOD_WORKSPACE_ID}.${process.env.GITPOD_WORKSPACE_CLUSTER_HOST}`,
+      // },
+    },
     plugins: [tailwindcss()],
   },
   runtimeConfig: {

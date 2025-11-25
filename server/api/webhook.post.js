@@ -4,29 +4,39 @@ export default defineEventHandler(async (event) => {
 
   // Ignore anything that is not a message
   if (!body || !body.message || !body.message.text) {
-    return { statusCode: 200, body: 'OK' };
+    return { statusCode: 200, body: "OK" };
   }
 
   const messageText = body.message.text;
   const chatId = body.message.chat.id;
 
   // Check if the message is a weather command
-  if (messageText.startsWith('/weather')) {
-    const cityName = messageText.split(' ')[1];
+  if (messageText.startsWith("/weather")) {
+    const cityName = messageText.split(" ")[1];
 
     if (!cityName) {
-      await sendMessage(telegramBotToken, chatId, 'Please provide a city name. Usage: /weather Zurich');
-      return { statusCode: 200, body: 'OK' };
+      await sendMessage(
+        telegramBotToken,
+        chatId,
+        "Please provide a city name. Usage: /weather Zurich"
+      );
+      return { statusCode: 200, body: "OK" };
     }
 
     try {
       // 1. Geocode the city name to get coordinates
-      const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=1`;
+      const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+        cityName
+      )}&count=1`;
       const geoResponse = await $fetch(geoUrl);
-      
+
       if (!geoResponse.results || geoResponse.results.length === 0) {
-        await sendMessage(telegramBotToken, chatId, `Could not find the city: ${cityName}`);
-        return { statusCode: 200, body: 'OK' };
+        await sendMessage(
+          telegramBotToken,
+          chatId,
+          `Could not find the city: ${cityName}`
+        );
+        return { statusCode: 200, body: "OK" };
       }
 
       const location = geoResponse.results[0];
@@ -42,15 +52,18 @@ export default defineEventHandler(async (event) => {
 
       // 3. Send the weather back to the user
       await sendMessage(telegramBotToken, chatId, replyText);
-
     } catch (error) {
-      console.error('Weather bot error:', error);
-      await sendMessage(telegramBotToken, chatId, 'Sorry, something went wrong while fetching the weather.');
+      console.error("Weather bot error:", error);
+      await sendMessage(
+        telegramBotToken,
+        chatId,
+        "Sorry, something went wrong while fetching the weather."
+      );
     }
   }
 
   // Always return a 200 OK to Telegram, otherwise it will keep re-sending the update.
-  return { statusCode: 200, body: 'OK' };
+  return { statusCode: 200, body: "OK" };
 });
 
 // Helper function to send a message using the Telegram API
@@ -58,13 +71,13 @@ async function sendMessage(botToken, chatId, text) {
   const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
   try {
     await $fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: {
         chat_id: chatId,
         text: text,
       },
     });
   } catch (error) {
-    console.error('Failed to send message:', error);
+    console.error("Failed to send message:", error);
   }
 }
