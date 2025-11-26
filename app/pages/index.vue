@@ -24,8 +24,6 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-
 const title = "Telegram Bot Test";
 const message = ref(
   "Hallo Welt! Dies ist eine Testnachricht von meiner Nuxt-App."

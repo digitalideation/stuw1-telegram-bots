@@ -2,6 +2,8 @@ export default defineEventHandler(async (event) => {
   const { telegramBotToken } = useRuntimeConfig();
   const body = await readBody(event);
 
+  // console.log("body", body);
+
   // Ignore anything that is not a message
   if (!body || !body.message || !body.message.text) {
     return { statusCode: 200, body: "OK" };
@@ -29,6 +31,7 @@ export default defineEventHandler(async (event) => {
         cityName
       )}&count=1`;
       const geoResponse = await $fetch(geoUrl);
+      // console.log("geoResponse", geoResponse);
 
       if (!geoResponse.results || geoResponse.results.length === 0) {
         await sendMessage(
@@ -40,6 +43,7 @@ export default defineEventHandler(async (event) => {
       }
 
       const location = geoResponse.results[0];
+      console.log("location", location);
       const { latitude, longitude, name } = location;
 
       // 2. Get the weather for the coordinates

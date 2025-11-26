@@ -1,301 +1,87 @@
-# Nuxt 4 + Supabase Todo App with Authentication
+# Building Telegram Bots with Nuxt 3
 
-This project showcases how to build a full-stack application using **Supabase's frontend client library directly** for both authentication and database operations - demonstrating the simplicity and power of Supabase's client-side SDK.
+This project is a hands-on guide to creating Telegram bots using the Nuxt 4 framework. It demonstrates how to set up a bot, send notifications from a web interface, and build an interactive bot that responds to user commands using webhooks.
 
 It was built for the course Studio Web and Mobile I at HSLU Digital Ideation in Autumn 2025 by Nick Schneeberger.
 
-### Quicklinks
+## Lessons
 
-- [Tailwind CSS v4 Setup & Customization Guide](tailwind.md)
-- [Tutorial for Media Uploads (Avatar)](profile.md)
-- [Tutorial for Google Login](google-login.md)
+This repository is structured as a series of lessons. Please follow them in order to build your understanding from the ground up.
 
-## 🎯 What This Project Demonstrates
+### [Part 1: Telegram Bot Setup](./telegram_setup.md)
 
-### 1. **Frontend-First Supabase Architecture**
+**Goal:** Get your bot credentials.
 
-This application uses Supabase's frontend client library directly in Vue components for both authentication and todo management. This approach:
+Before writing any code, you need to register your bot with Telegram and get the necessary credentials. This guide will walk you through:
 
-- **Simplified architecture** - Direct database access from components using Supabase SDK
-- **Rapid development** - No need for custom API routes or backend logic
-- **Built-in authentication** - Leverage Supabase's auth system seamlessly
-- ⚠️ **Requires RLS policies** - Database security is handled by Supabase Row Level Security
+- Using the `BotFather` to create a new bot.
+- Obtaining your unique **Bot Token**.
+- Finding your personal **Chat ID** to receive messages.
 
-### 2. **Direct Client-Side Database Access**
+➡️ **[Start with the setup guide](./telegram_setup.md)**
 
-The application uses a simple, straightforward architecture:
+---
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Vue Components (Pages & Components)                        │
-│  • app/pages/index.vue (Todo list + User profile)           │
-│  • app/pages/login.vue (Authentication)                     │
-│  • app/pages/register.vue (User registration)               │
-│                                                              │
-│  Components interact directly with Supabase client          │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Supabase Client (Frontend Library)                         │
-│  • app/composables/useSupabaseClient.js                     │
-│  • Handles all auth & database operations                   │
-│  • Uses anon key (public, safe to expose)                   │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Supabase Cloud                                             │
-│  • Authentication & user management                         │
-│  • PostgreSQL database with todos table                     │
-│  • Row Level Security (RLS) policies for security           │
-└─────────────────────────────────────────────────────────────┘
-```
+### [Part 2: Simple Notification Bot](./telegram_notification.md)
 
-**Why This Approach Works Well:**
+**Goal:** Send a message from a Nuxt app to Telegram.
 
-- Perfect for apps with user-specific data (todos belong to users)
-- Supabase handles authentication and authorization automatically
-- RLS policies ensure users can only access their own data
-- No custom backend code needed - focus on the frontend
+In this part, you will build your first simple bot. The goal is to create a web page with a button that sends a predefined message to your Telegram chat. You will learn about:
 
-### 3. **Supabase Authentication + Row Level Security**
+- The basic architecture for secure communication with the Telegram API.
+- Creating a frontend in Nuxt to trigger the bot.
+- Building a server-side API endpoint in Nuxt to handle the logic and protect your credentials.
 
-This project uses Supabase's **anon/public key** with authentication and RLS:
+➡️ **[Continue with the notification bot guide](./telegram_notification.md)**
 
-- **Secure authentication** - Built-in email/password authentication
-- **Row Level Security** - Database policies ensure data isolation per user
-- **Public key is safe** - Designed to be used in the browser
-- **User context** - Supabase automatically tracks the authenticated user
+---
 
-> **Note**: You must configure proper RLS policies in Supabase to ensure users can only access their own todos. This provides security without custom backend logic.
+### [Part 3: Interactive Weather Bot with Webhooks](./telegram_webhook.md)
 
-## 🚀 Features
+**Goal:** Create a bot that responds to user commands.
 
-- **User Authentication** - Register, login, logout functionality
-- **User Profile Page** - View profile with profile picture upload (simple example)
-- **Create** new todos (tied to authenticated user)
-- **Read** todos from database (user-specific, automatically filtered by RLS)
-- **Update** todo status (mark as complete)
-- **Delete** todos
-- **Auth Protection** - Redirects to login if not authenticated
-- **Input validation** on the frontend
-- **Error handling** with user-friendly messages
-- **Empty state** when no todos exist
-- **Row Level Security** - Users can only access their own todos (database-level security)
+This final lesson introduces a more advanced and powerful concept: webhooks. You will build a bot that a user can interact with. For example, typing `/weather Zurich` will make the bot reply with the current weather in Zurich. You will learn:
 
-## 📁 Project Structure
+- What webhooks are and why they are better than polling for interactive bots.
+- How to use `ngrok` to expose your local development server to the internet so Telegram can reach it.
+- How to parse user commands, fetch data from an external API, and send a dynamic reply.
 
-```
-stuw1-demo-todo-with-login/
-├── app/
-│   ├── pages/
-│   │   ├── index.vue              # Main page (todos + user profile)
-│   │   ├── login.vue              # Login page
-│   │   ├── register.vue           # Registration page
-│   │   └── profile.vue            # Profile page with picture upload (optional)
-│   ├── composables/
-│   │   └── useSupabaseClient.js   # Supabase client setup
-│   └── components/
-│       ├── TodoForm.vue           # Todo input form component (optional)
-│       └── TodoList.vue           # Todo list display component (optional)
-├── nuxt.config.ts                 # Nuxt configuration
-├── package.json                   # Dependencies
-├── profile.md                     # Tutorial: How to add profile pictures
-└── README.md                      # This file
-```
+➡️ **[Finish with the interactive webhook bot guide](./telegram_webhook.md)**
 
-## 🛠️ Setup & Installation
+## 🛠️ Project Setup
 
-### Prerequisites
+To run this project on your local machine, first make sure you have cloned it.
 
-- Node.js 18+ installed
-- A Supabase account and project (free tier works!)
+### 1. Install Dependencies
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/digitalideation/stuw1-demo-todo-with-login.git
-cd stuw1-demo-todo-with-login
-```
-
-### 2. Install Dependencies
+Navigate into the project directory and install the required dependencies.
 
 ```bash
 npm install
 ```
 
-### 3. Set Up Supabase
+### 2. Set Up Environment Variables
 
-#### Create a Todos Table
+Create a `.env` file in the root of the project by copying the example file:
 
-In your Supabase project, create a table named `todos`:
-
-```sql
-CREATE TABLE todos (
-  id BIGSERIAL PRIMARY KEY,
-  task TEXT NOT NULL,
-  done BOOLEAN DEFAULT false,
-  user_id UUID REFERENCES auth.users NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
+```bash
+cp env.example .env
 ```
 
-#### Set Up Row Level Security (RLS) Policies
+Now, open the `.env` file and fill in the credentials you obtained in **[Part 1](./telegram_setup.md)**:
 
-Enable RLS and create policies to ensure users can only access their own todos:
-
-```sql
--- Enable Row Level Security
-ALTER TABLE todos ENABLE ROW LEVEL SECURITY;
-
--- Policy: Users can view their own todos
-CREATE POLICY "Users can view their own todos"
-  ON todos FOR SELECT
-  USING (auth.uid() = user_id);
-
--- Policy: Users can insert their own todos
-CREATE POLICY "Users can insert their own todos"
-  ON todos FOR INSERT
-  WITH CHECK (auth.uid() = user_id);
-
--- Policy: Users can update their own todos
-CREATE POLICY "Users can update their own todos"
-  ON todos FOR UPDATE
-  USING (auth.uid() = user_id);
-
--- Policy: Users can delete their own todos
-CREATE POLICY "Users can delete their own todos"
-  ON todos FOR DELETE
-  USING (auth.uid() = user_id);
+```
+TELEGRAM_BOT_TOKEN=YOUR_TELEGRAM_BOT_TOKEN_HERE
+TELEGRAM_CHAT_ID=YOUR_TELEGRAM_CHAT_ID_HERE
 ```
 
-#### Get Your Supabase Credentials
-
-1. Go to your Supabase project dashboard
-2. Navigate to **Settings** → **API**
-3. Copy your:
-   - Project URL
-   - `anon public` key (✅ This is the **public** key, safe for browser use)
-
-### 4. Configure Supabase Client
-
-Update the `app/composables/useSupabaseClient.js` file with your credentials:
-
-```javascript
-import { createClient } from "@supabase/supabase-js";
-
-export const supabase = createClient(
-  "https://your-project.supabase.co",
-  "your-anon-public-key-here"
-);
-```
-
-⚠️ **Important**:
-
-- The anon/public key is safe to use in the browser
-- RLS policies protect your data at the database level
-- Never use the service_role key in frontend code
-
-### 5. Run the Development Server
+### 3. Run the Development Server
 
 ```bash
 npm run dev
 ```
 
-If that doesn't work, try:
-
-```bash
-nuxt dev
-```
-
-The application will be available at `http://localhost:3000`
-
-### 6. (Optional) Add Profile Pictures
-
-Want to add profile picture uploads? See **[profile.md](./profile.md)** for a simple 5-minute tutorial on using Supabase Storage.
-
-## 🔄 How It Works (Request Flow)
-
-Let's trace what happens when you add a new todo:
-
-1. **User types** in the input field and clicks "Add"
-2. **`index.vue`** validates the input and calls `addTodo()`
-3. **Supabase client** directly inserts the todo into the database:
-   - Uses the authenticated user's session automatically
-   - Supabase checks RLS policies to ensure user has permission
-   - Database inserts the todo with the user's `user_id`
-4. **`index.vue`** fetches the updated todo list from Supabase
-5. **Component re-renders** with the new todo displayed
-
-**Authentication Flow:**
-
-1. User registers/logs in via `login.vue` or `register.vue`
-2. Supabase creates an auth session stored in browser
-3. User is redirected to `index.vue` which shows their profile and todos
-4. All subsequent database requests include the user's session automatically
-5. RLS policies ensure users only see/modify their own todos
-6. User can logout directly from the index page
-
-## 🔐 Security Notes
-
-**How security works in this app:**
-
-- **Row Level Security (RLS)** - Database-level security policies ensure data isolation
-- **Authenticated sessions** - Supabase manages JWT tokens automatically
-- **Public key is safe** - The anon/public key is designed for browser use
-- **User context** - RLS policies use `auth.uid()` to filter data per user
-- **Automatic filtering** - Users automatically only see their own todos (no manual filtering needed in code!)
-
-**Why this is secure:**
-
-- Users can **only** access their own todos (enforced by RLS policies at the database level)
-- No sensitive keys exposed in the frontend
-- Supabase handles authentication, session management, and security
-- Even if someone inspects the network requests, they can't access other users' data
-- The `user_id` column is automatically set and checked by RLS policies
-
-**Best practices:**
-
-- Always enable RLS on tables containing user data
-- Test your RLS policies thoroughly
-- Use Supabase's built-in auth features (email verification, password reset, etc.)
-- Add rate limiting for production apps (Supabase has this built-in for auth)
-
-### 🎓 Important: How RLS Automatically Filters Data
-
-One of the most powerful features of this approach is that **you don't need to manually filter data by user**. Notice in `index.vue` that we simply query:
-
-```javascript
-const { data } = await supabase.from("todos").select("*");
-```
-
-We **don't** need to do:
-
-```javascript
-// NOT NEEDED with RLS! ❌
-const { data } = await supabase
-  .from("todos")
-  .select("*")
-  .eq("user_id", user.id);
-```
-
-**Why?** Because the RLS policies automatically filter the results based on the authenticated user's session! Supabase knows who is logged in and only returns/allows modifications to that user's data. This makes your code simpler AND more secure.
-
-## 📚 Additional Resources
-
-- [Nuxt 4 Documentation](https://nuxt.com/docs)
-- [Vue 3 Documentation](https://vuejs.org/)
-- [Supabase Documentation](https://supabase.com/docs)
-- [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
-
-## 📝 License
-
-MIT - Feel free to use this for educational purposes!
-
-## 🤝 Contributing
-
-This is an educational project. Feel free to fork and experiment!
+The application will be available at `http://localhost:3000`.
 
 ---
 
