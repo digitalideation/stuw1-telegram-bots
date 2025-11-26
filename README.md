@@ -1,4 +1,4 @@
-# Building Telegram Bots with Nuxt 3
+# Building Telegram Bots with Nuxt 4
 
 This project is a hands-on guide to creating Telegram bots using the Nuxt 4 framework. It demonstrates how to set up a bot, send notifications from a web interface, and build an interactive bot that responds to user commands using webhooks.
 
